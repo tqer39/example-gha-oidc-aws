@@ -26,6 +26,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/oidc-github-actions
           aws-region: ap-northeast-1
+          role-session-name: MySessionName
 
       - name: Get caller identity
         id: get-caller-identity
