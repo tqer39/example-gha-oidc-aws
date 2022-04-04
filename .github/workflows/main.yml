@@ -13,6 +13,7 @@ permissions:
 jobs:
   terraform:
     name: "Terraform"
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
