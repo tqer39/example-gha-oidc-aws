@@ -45,7 +45,7 @@ jobs:
       - name: Terraform Apply
         id: terraform-apply
         uses: './.github/actions/terraform-apply'
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'push'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
