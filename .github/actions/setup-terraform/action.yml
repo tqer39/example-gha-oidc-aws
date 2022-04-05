@@ -10,6 +10,9 @@ inputs:
   AWS_GITHUB_ACTIONS_OIDC_ROLE:
     description: "AWS IAM Role"
     required: true
+  working-directory:
+    description: "Terraform CLI 実行時のパス"
+    required: true
 
 runs:
   using: composite
@@ -38,8 +41,9 @@ runs:
         terraform_version: ${{ env.TERRAFORM_VERSION }}
 
     - name: Terraform Init
-      id: init
+      id: terraform-init
       run: |
         terraform init
         echo "Terraform Version: ${{ env.TERRAFORM_VERSION }}"
+      working-directory: ${{ inputs.working-directory }}
       shell: bash

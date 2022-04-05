@@ -11,6 +11,9 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  ENV: dev
+
 jobs:
   terraform:
     name: "Terraform"
@@ -23,16 +26,28 @@ jobs:
             directory: main
     defaults:
       run:
-        working-directory: ./${{ matrix.directory }}
+        working-directory: ${{ matrix.directory }}
     steps:
       - name: Checkout
         id: checkout
         uses: actions/checkout@v3
 
-      - uses: './.github/actions/terraform-plan'
+      - name: Terraform Plan
+        id: terraform-plan
+        uses: './.github/actions/terraform-plan'
+        if: github.event_name == 'pull_request'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
           AWS_GITHUB_ACTIONS_OIDC_ROLE: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/oidc-github-actions
+          working-directory: ./${{ matrix.directory }}
 
-      # - uses: './.github/actions/terraform-apply'
+      - name: Terraform Apply
+        id: terraform-apply
+        uses: './.github/actions/terraform-apply'
+        if: github.event_name == 'pull_request'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_GITHUB_ACTIONS_OIDC_ROLE: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/oidc-github-actions
+          working-directory: ./${{ matrix.directory }}
