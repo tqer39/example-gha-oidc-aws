@@ -7,12 +7,21 @@ inputs:
   github-token:
     description: "github token"
     required: true
+  AWS_ACCOUNT_ID:
+    description: "AWS Account ID"
+    required: true
+  AWS_GITHUB_ACTIONS_OIDC_ROLE:
+    description: "AWS Account ID"
+    required: true
 
 runs:
   using: composite
   steps:
-    # - uses: './.github/actions/setup-terraform'
-    # - uses: './.github/actions/terraform-validate'
+    - uses: './.github/actions/setup-terraform'
+      with:
+        AWS_ACCOUNT_ID: ${{ inputs.AWS_ACCOUNT_ID }}
+        AWS_GITHUB_ACTIONS_OIDC_ROLE: arn:aws:iam::${{ inputs.AWS_ACCOUNT_ID }}:role/oidc-github-actions
+    - uses: './.github/actions/terraform-validate'
 
     - name: Terraform Plan
       id: plan
