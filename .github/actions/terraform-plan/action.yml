@@ -26,6 +26,7 @@ runs:
     - name: Get current Terraform version
       id: get-terraform-version
       run: echo "TERRAFORM_VERSION=$(cat .terraform-version)" >> $GITHUB_ENV
+      shell: bash
 
     - name: Setup Terraform
       id: setup-terraform
@@ -42,11 +43,13 @@ runs:
       id: init
       working-directory: "main"
       run: terraform init
+      shell: bash
 
     - name: Terraform Validate
       id: validate
       working-directory: "main"
       run: terraform validate -no-color
+      shell: bash
 
     - name: Terraform Plan
       id: plan
