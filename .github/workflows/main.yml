@@ -28,11 +28,12 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/oidc-github-actions
           # いらないかも
           # role-session-name: MySessionName
+      - run: aws sts get-caller-identity
 
-      - name: Get caller identity
-        id: get-caller-identity
-        run: aws sts get-caller-identity
-        shell: bash
+      # - name: Get caller identity
+        # id: get-caller-identity
+        # run: aws sts get-caller-identity
+        # shell: bash
 
       - name: Get current Terraform version
         id: get-terraform-version
