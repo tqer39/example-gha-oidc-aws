@@ -43,7 +43,9 @@ runs:
     - name: Terraform Init
       id: init
       working-directory: "main"
-      run: terraform init -reconfigure
+      run: |
+        terraform init -migrate-state
+        echo "Terraform Version: ${{ env.TERRAFORM_VERSION }}"
       shell: bash
 
     - name: Terraform Validate
