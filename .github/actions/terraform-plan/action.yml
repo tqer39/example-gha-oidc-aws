@@ -37,13 +37,13 @@ runs:
     - name: Terraform Format
       id: fmt
       working-directory: "main"
-      run: terraform fmt -recursive -check
+      run: terraform fmt -check -recursive -diff
       shell: bash
 
     - name: Terraform Init
       id: init
       working-directory: "main"
-      run: terraform init
+      run: terraform init -upgrade
       shell: bash
 
     - name: Terraform Validate
