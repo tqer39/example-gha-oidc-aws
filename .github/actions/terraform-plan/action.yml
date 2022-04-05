@@ -7,11 +7,8 @@ inputs:
   github-token:
     description: "github token"
     required: true
-  AWS_ACCOUNT_ID:
-    description: "AWS Account ID"
-    required: true
   AWS_GITHUB_ACTIONS_OIDC_ROLE:
-    description: "AWS OIDC IAM Role a"
+    description: "AWS OIDC IAM Role"
     required: true
   working-directory:
     description: "Terraform CLI 実行時のパス"
@@ -23,8 +20,7 @@ runs:
     - uses: './.github/actions/setup-terraform'
       with:
         working-directory: ${{ inputs.working-directory }}
-        AWS_ACCOUNT_ID: ${{ inputs.AWS_ACCOUNT_ID }}
-        AWS_GITHUB_ACTIONS_OIDC_ROLE: arn:aws:iam::${{ inputs.AWS_ACCOUNT_ID }}:role/oidc-github-actions
+        AWS_GITHUB_ACTIONS_OIDC_ROLE: ${{ inputs.AWS_GITHUB_ACTIONS_OIDC_ROLE }}
 
     - uses: './.github/actions/terraform-validate'
       with:

@@ -4,9 +4,6 @@ name: Setup terraform
 description: Setup Terraform
 
 inputs:
-  AWS_ACCOUNT_ID:
-    description: "AWS Account ID"
-    required: true
   AWS_GITHUB_ACTIONS_OIDC_ROLE:
     description: "AWS IAM Role"
     required: true

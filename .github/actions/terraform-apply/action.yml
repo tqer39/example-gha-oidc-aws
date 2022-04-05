@@ -16,7 +16,6 @@ runs:
       uses: './.github/actions/terraform-plan'
       with:
         working-directory: ${{ inputs.working-directory }}
-        AWS_ACCOUNT_ID: ${{ inputs.AWS_ACCOUNT_ID }}
         AWS_GITHUB_ACTIONS_OIDC_ROLE: arn:aws:iam::${{ inputs.AWS_ACCOUNT_ID }}:role/oidc-github-actions
 
     - name: Terraform Apply
