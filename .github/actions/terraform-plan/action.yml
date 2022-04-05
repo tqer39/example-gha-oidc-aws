@@ -11,7 +11,7 @@ inputs:
     description: "AWS Account ID"
     required: true
   AWS_GITHUB_ACTIONS_OIDC_ROLE:
-    description: "AWS Account ID"
+    description: "AWS OIDC IAM Role"
     required: true
 
 runs:
@@ -21,6 +21,7 @@ runs:
       with:
         AWS_ACCOUNT_ID: ${{ inputs.AWS_ACCOUNT_ID }}
         AWS_GITHUB_ACTIONS_OIDC_ROLE: arn:aws:iam::${{ inputs.AWS_ACCOUNT_ID }}:role/oidc-github-actions
+
     - uses: './.github/actions/terraform-validate'
 
     - name: Terraform Plan
@@ -53,7 +54,7 @@ runs:
     #       })
 
     - uses: marocchino/sticky-pull-request-comment@v2
-      # if: github.event_name == 'pull_request' && steps.changed.outputs.changed == 'true'
+      if: github.event_name == 'pull_request' && steps.changed.outputs.changed == 'true'
       with:
         header: plan
         message: |
