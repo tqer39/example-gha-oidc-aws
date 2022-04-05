@@ -33,6 +33,7 @@ jobs:
       - uses: './.github/actions/terraform-plan'
         with:
           directory: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: './.github/actions/terraform-apply'
         with:

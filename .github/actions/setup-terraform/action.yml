@@ -7,6 +7,9 @@ inputs:
   AWS_ACCOUNT_ID:
     description: "AWS Account ID"
     required: true
+  directory:
+    description: "Terraform Working Directory"
+    required: true
 
 runs:
   using: composite
@@ -36,7 +39,7 @@ runs:
 
     - name: Terraform Init
       id: init
-      working-directory: "main"
+      working-directory: ${{ inputs.directory }}
       run: |
         terraform init
         echo "Terraform Version: ${{ env.TERRAFORM_VERSION }}"
