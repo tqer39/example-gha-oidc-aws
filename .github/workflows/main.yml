@@ -31,7 +31,7 @@ jobs:
       - uses: './.github/actions/setup-terraform'
         with:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_GITHUB_ACTIONS_OIDC_ROLE: arn:aws:iam::${{ inputs.AWS_ACCOUNT_ID }}:role/oidc-github-actions
+          AWS_GITHUB_ACTIONS_OIDC_ROLE: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/oidc-github-actions
         continue-on-error: true
 
       - uses: './.github/actions/terraform-validate'
