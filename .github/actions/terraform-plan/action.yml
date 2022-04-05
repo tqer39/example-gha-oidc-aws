@@ -11,7 +11,7 @@ inputs:
     description: "AWS Account ID"
     required: true
   AWS_GITHUB_ACTIONS_OIDC_ROLE:
-    description: "AWS OIDC IAM Role"
+    description: "AWS OIDC IAM Role a"
     required: true
 
 runs:
