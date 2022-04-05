@@ -14,47 +14,51 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Terraform Format
-      id: fmt
-      working-directory: ${{ inputs.directory }}
-      run: terraform fmt -check -recursive -diff
-      shell: bash
-
-    - name: Terraform Validate
-      id: validate
-      working-directory: ${{ inputs.directory }}
-      run: terraform validate -no-color
-      shell: bash
-
     - name: Terraform Plan
       id: plan
       working-directory: ${{ inputs.directory }}
       shell: bash
       run: terraform plan -no-color
 
-    - name: Terraform Plan (failure) -> GitHub Script
-      uses: actions/github-script@v6
-      if: steps.plan.outcome == 'failure'
-      env:
-        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+    # - name: Terraform Plan (failure) -> GitHub Script
+    #   uses: actions/github-script@v6
+    #   if: steps.plan.outcome == 'failure'
+    #   env:
+    #     PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+    #   with:
+    #     github-token: ${{ inputs.github-token }}
+    #     script: |
+    #       const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+    #       #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+    #       #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+    #       #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+    #       <details><summary>Show Plan</summary>
+    #       \`\`\`\n
+    #       ${process.env.PLAN}
+    #       \`\`\`
+    #       </details>
+    #       *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+    #       github.rest.issues.createComment({
+    #         owner: context.repo.owner,
+    #         repo: context.repo.repo,
+    #         body: output
+    #       })
+
+    - uses: marocchino/sticky-pull-request-comment@v2
+      # if: github.event_name == 'pull_request' && steps.changed.outputs.changed == 'true'
       with:
-        github-token: ${{ inputs.github-token }}
-        script: |
-          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+        header: plan
+        message: |
+          #### Terraform Format and Style `${{ steps.fmt.outcome }}`
+          #### Terraform Initialization ⚙️`${{ steps.init.outcome }}`
+          #### Terraform Validation 🤖`${{ steps.validate.outcome }}`
+          #### Terraform Plan 📖`${{ steps.plan.outcome }}`
           <details><summary>Show Plan</summary>
-          \`\`\`\n
-          ${process.env.PLAN}
-          \`\`\`
+          ```
+          terraform
+          ${{ steps.plan.outputs.stdout }}
+          ```
           </details>
-          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-          github.rest.issues.createComment({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: output
-          })
 
     - name: Terraform Plan (failure) -> Status
       if: steps.plan.outcome == 'failure'

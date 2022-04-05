@@ -15,6 +15,14 @@ jobs:
     name: "Terraform"
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - name: main
+            directory: main
+    defaults:
+      run:
+        working-directory: ./${{ matrix.directory }}
     steps:
       - name: Checkout
         id: checkout
@@ -23,21 +31,16 @@ jobs:
       - uses: './.github/actions/setup-terraform'
         with:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          directory: main
+          AWS_GITHUB_ACTIONS_OIDC_ROLE: arn:aws:iam::${{ inputs.AWS_ACCOUNT_ID }}:role/oidc-github-actions
         continue-on-error: true
 
       - uses: './.github/actions/terraform-validate'
-        with:
-          directory: main
 
       - uses: './.github/actions/terraform-plan'
         with:
-          directory: main
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: './.github/actions/terraform-apply'
-        with:
-          directory: main
 
       # - name: Configure AWS credentials
       #   id: configure-aws-credentials
