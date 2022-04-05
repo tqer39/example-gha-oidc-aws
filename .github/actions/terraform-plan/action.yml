@@ -69,7 +69,7 @@ runs:
           ```
           </details>
 
-    - name: Terraform Plan (failure) -> Status
-      if: steps.plan.outcome == 'failure'
-      run: exit 1
-      shell: bash
+    # - name: Terraform Plan (failure) -> Status
+    #   if: steps.plan.outcome == 'failure'
+    #   run: exit 1
+    #   shell: bash
