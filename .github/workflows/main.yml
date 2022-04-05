@@ -28,6 +28,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/oidc-github-actions
           # いらないかも
           # role-session-name: MySessionName
+          role-session-name: deploy-role-session
       - run: aws sts get-caller-identity
 
       # - name: Get caller identity
