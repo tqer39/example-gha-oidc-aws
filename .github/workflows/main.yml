@@ -23,6 +23,7 @@ jobs:
       - uses: './.github/actions/terraform-plan'
         with:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+        continue-on-error: true
 
       # - name: Configure AWS credentials
       #   id: configure-aws-credentials

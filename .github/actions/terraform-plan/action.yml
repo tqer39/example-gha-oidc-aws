@@ -56,7 +56,6 @@ runs:
       working-directory: "main"
       shell: bash
       run: terraform plan -no-color
-      continue-on-error: true
 
     - name: Terraform Plan (failure) -> GitHub Script
       uses: actions/github-script@v6
