@@ -43,7 +43,7 @@ runs:
     - name: Terraform Init
       id: init
       working-directory: "main"
-      run: terraform init -upgrade
+      run: terraform init -reconfigure
       shell: bash
 
     - name: Terraform Validate
