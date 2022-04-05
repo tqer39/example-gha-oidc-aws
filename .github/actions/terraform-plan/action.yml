@@ -4,9 +4,6 @@ name: Terraform Plan
 description: Terraform Plan
 
 inputs:
-  directory:
-    description: "Terraform Working Directory"
-    required: true
   github-token:
     description: "github token"
     required: true
@@ -16,7 +13,6 @@ runs:
   steps:
     - name: Terraform Plan
       id: plan
-      working-directory: ${{ inputs.directory }}
       shell: bash
       run: terraform plan -no-color
 
