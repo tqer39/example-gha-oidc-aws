@@ -1,62 +1,31 @@
 ---
-name: terraform fmt
+name: Terraform Plan
 
-description: "Terraform のフォーマット"
+description: Terraform Plan
 
 inputs:
-  AWS_ACCOUNT_ID:
-    description: "AWS Account ID"
+  directory:
+    description: "Terraform Working Directory"
     required: true
 
 runs:
-  using: "composite"
+  using: composite
   steps:
-    - name: Configure AWS credentials
-      id: configure-aws-credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-region: ap-northeast-1
-        role-to-assume: arn:aws:iam::${{ inputs.AWS_ACCOUNT_ID }}:role/oidc-github-actions
-
-    - name: Get caller identity
-      id: get-caller-identity
-      run: aws sts get-caller-identity
-      shell: bash
-
-    - name: Get current Terraform version
-      id: get-terraform-version
-      run: echo "TERRAFORM_VERSION=$(cat .terraform-version)" >> $GITHUB_ENV
-      shell: bash
-
-    - name: Setup Terraform
-      id: setup-terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: ${{ env.TERRAFORM_VERSION }}
-
     - name: Terraform Format
       id: fmt
-      working-directory: "main"
+      working-directory: ${{ inputs.directory }}
       run: terraform fmt -check -recursive -diff
-      shell: bash
-
-    - name: Terraform Init
-      id: init
-      working-directory: "main"
-      run: |
-        terraform init -migrate-state
-        echo "Terraform Version: ${{ env.TERRAFORM_VERSION }}"
       shell: bash
 
     - name: Terraform Validate
       id: validate
-      working-directory: "main"
+      working-directory: ${{ inputs.directory }}
       run: terraform validate -no-color
       shell: bash
 
     - name: Terraform Plan
       id: plan
-      working-directory: "main"
+      working-directory: ${{ inputs.directory }}
       shell: bash
       run: terraform plan -no-color
 
@@ -79,7 +48,6 @@ runs:
           </details>
           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
           github.rest.issues.createComment({
-            issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             body: output
