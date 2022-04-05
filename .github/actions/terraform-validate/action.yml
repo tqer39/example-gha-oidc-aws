@@ -3,15 +3,20 @@ name: Terraform Validation
 
 description: Terraform Validation
 
+inputs:
+  working-directory:
+    description: "Terraform CLI 実行時のパス"
+    required: true
+
 runs:
   using: composite
   steps:
     - name: Terraform Format
-      id: fmt
+      id: terraform-fmt
       run: terraform fmt -check -recursive -diff
       shell: bash
 
     - name: Terraform Validate
-      id: validate
+      id: terraform-validate
       run: terraform validate -no-color
       shell: bash
