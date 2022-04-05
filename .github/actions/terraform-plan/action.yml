@@ -38,6 +38,7 @@ runs:
       id: fmt
       working-directory: "main"
       run: terraform fmt -recursive -check
+      shell: bash
 
     - name: Terraform Init
       id: init
@@ -85,3 +86,4 @@ runs:
     - name: Terraform Plan (failure) -> Status
       if: steps.plan.outcome == 'failure'
       run: exit 1
+      shell: bash
