@@ -3,22 +3,15 @@ name: Terraform Validation
 
 description: Terraform Validation
 
-inputs:
-  directory:
-    description: "Terraform Working Directory"
-    required: true
-
 runs:
   using: composite
   steps:
     - name: Terraform Format
       id: fmt
-      working-directory: ${{ inputs.directory }}
       run: terraform fmt -check -recursive -diff
       shell: bash
 
     - name: Terraform Validate
       id: validate
-      working-directory: ${{ inputs.directory }}
       run: terraform validate -no-color
       shell: bash

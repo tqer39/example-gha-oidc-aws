@@ -11,6 +11,9 @@ inputs:
 runs:
   using: composite
   steps:
+    # - uses: './.github/actions/setup-terraform'
+    # - uses: './.github/actions/terraform-validate'
+
     - name: Terraform Plan
       id: plan
       shell: bash

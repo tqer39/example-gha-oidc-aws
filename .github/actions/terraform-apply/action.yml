@@ -3,16 +3,10 @@ name: terraform fmt
 
 description: Terraform Apply
 
-inputs:
-  directory:
-    description: "Terraform Working Directory"
-    required: true
-
 runs:
   using: composite
   steps:
     - name: Terraform Apply
       id: apply
-      working-directory: ${{ inputs.directory }}
       run: terraform apply -auto-approve
       shell: bash
