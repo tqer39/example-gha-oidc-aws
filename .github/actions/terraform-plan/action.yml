@@ -39,17 +39,12 @@ runs:
         hide_and_recreate: true
         header: terraform-plan
         message: |
-          #### Terraform Format and Style `${{ steps.terraform-fmt.outcome }}`
-          #### Terraform Initialization ⚙️`${{ steps.terraform-init.outcome }}`
-          #### Terraform Validation 🤖`${{ steps.terraform-validate.outcome }}`
           #### Terraform Plan 📖`${{ steps.terraform-plan.outcome }}`
           <details><summary>Show Plan</summary>
 
           ```hcl
-
           terraform
           ${{ steps.plan.outputs.stdout }}
-
           ```
 
           </details>
