@@ -16,7 +16,45 @@ runs:
       run: terraform fmt -check -recursive -diff
       shell: bash
 
+    - name: Sticky Pull Request Comment
+      id: sticky-pull-request-comment
+      uses: marocchino/sticky-pull-request-comment@v2.2.0
+      with:
+        hide_and_recreate: true
+        header: fmt
+        message: |
+          #### Terraform Format and Style `${{ steps.fmt.outcome }}`
+          <details><summary>Show Plan</summary>
+
+          ```hcl
+
+          terraform
+          ${{ steps.plan.outputs.stdout }}
+
+          ```
+
+          </details>
+
     - name: Terraform Validate
       id: terraform-validate
       run: terraform validate -no-color
       shell: bash
+
+    - name: Sticky Pull Request Comment
+      id: sticky-pull-request-comment
+      uses: marocchino/sticky-pull-request-comment@v2.2.0
+      with:
+        hide_and_recreate: true
+        header: validate
+        message: |
+          #### Terraform Validation 🤖`${{ steps.validate.outcome }}`
+          <details><summary>Show Plan</summary>
+
+          ```hcl
+
+          terraform
+          ${{ steps.plan.outputs.stdout }}
+
+          ```
+
+          </details>

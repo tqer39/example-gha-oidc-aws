@@ -32,37 +32,10 @@ runs:
       working-directory: ${{ inputs.working-directory }}
       shell: bash
 
-    # - name: Terraform Plan (failure) -> GitHub Script
-    #   uses: actions/github-script@v6
-    #   # if: steps.plan.outcome == 'failure'
-    #   env:
-    #     PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-    #   with:
-    #     github-token: ${{ inputs.github-token }}
-    #     script: |
-    #       const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-    #       #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-    #       #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-    #       #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-    #       <details><summary>Show Plan</summary>
-    #       \`\`\`\n
-    #       ${process.env.PLAN}
-    #       \`\`\`
-    #       </details>
-    #       *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-    #       github.rest.issues.createComment({
-    #         issue_number: context.issue.number,
-    #         owner: context.repo.owner,
-    #         repo: context.repo.repo,
-    #         body: output
-    #       })
-
     - name: Sticky Pull Request Comment
       id: sticky-pull-request-comment
       uses: marocchino/sticky-pull-request-comment@v2.2.0
-      # if: github.event_name == 'pull_request' && steps.changed.outputs.changed == 'true'
       with:
-        # GITHUB_TOKEN: ${{ inputs.github-token }}
         hide_and_recreate: true
         header: plan
         message: |

@@ -44,3 +44,22 @@ runs:
         echo "Terraform Version: ${{ env.TERRAFORM_VERSION }}"
       working-directory: ${{ inputs.working-directory }}
       shell: bash
+
+    - name: Sticky Pull Request Comment
+      id: sticky-pull-request-comment
+      uses: marocchino/sticky-pull-request-comment@v2.2.0
+      with:
+        hide_and_recreate: true
+        header: init
+        message: |
+          #### Terraform Initialization ⚙️`${{ steps.init.outcome }}`
+          <details><summary>Show Plan</summary>
+
+          ```hcl
+
+          terraform
+          ${{ steps.plan.outputs.stdout }}
+
+          ```
+
+          </details>
