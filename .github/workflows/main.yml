@@ -7,10 +7,10 @@ on:
       - main
   pull_request:
 
-permissions:
-  id-token: write
-  contents: read
-  actions: write
+# permissions:
+#   id-token: write
+#   contents: read
+#   actions: write
 
 env:
   ENV: dev
@@ -48,7 +48,7 @@ jobs:
         # if: github.event_name == 'pull_request' && steps.changed.outputs.changed == 'true'
         with:
           # GITHUB_TOKEN: ${{ inputs.github-token }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           header: plan
           message: |
             #### Terraform Format and Style `${{ steps.fmt.outcome }}`
