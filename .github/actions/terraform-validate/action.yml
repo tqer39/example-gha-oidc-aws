@@ -7,6 +7,13 @@ inputs:
   working-directory:
     description: "Terraform CLI 実行時のパス"
     required: true
+outputs:
+  terraform-fmt-outcome:
+    description: terraform fmt の処理結果
+    value: ${{ steps.terraform-fmt.outcome }}
+  terraform-validate-outcome:
+    description: terraform validate の処理結果
+    value: ${{ steps.terraform-validate.outcome }}
 
 runs:
   using: composite
@@ -16,45 +23,7 @@ runs:
       run: terraform fmt -check -recursive -diff
       shell: bash
 
-    - name: Sticky Pull Request Comment
-      id: sticky-pull-request-comment-1
-      uses: marocchino/sticky-pull-request-comment@v2.2.0
-      with:
-        hide_and_recreate: true
-        header: terraform-fmt
-        message: |
-          #### Terraform Format and Style `${{ steps.terraform-fmt.outcome }}`
-          <details><summary>Show Plan</summary>
-
-          ```hcl
-
-          terraform
-          ${{ steps.plan.outputs.stdout }}
-
-          ```
-
-          </details>
-
     - name: Terraform Validate
       id: terraform-validate
       run: terraform validate -no-color
       shell: bash
-
-    - name: Sticky Pull Request Comment
-      id: sticky-pull-request-comment-2
-      uses: marocchino/sticky-pull-request-comment@v2.2.0
-      with:
-        hide_and_recreate: true
-        header: terraform-validate
-        message: |
-          #### Terraform Validation 🤖`${{ steps.terraform-validate.outcome }}`
-          <details><summary>Show Plan</summary>
-
-          ```hcl
-
-          terraform
-          ${{ steps.plan.outputs.stdout }}
-
-          ```
-
-          </details>

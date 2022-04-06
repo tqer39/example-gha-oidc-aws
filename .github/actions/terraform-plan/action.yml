@@ -17,12 +17,16 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: './.github/actions/setup-terraform'
+    - name: Setup Terraform
+      id: setup-terraform
+      uses: "./.github/actions/setup-terraform"
       with:
         working-directory: ${{ inputs.working-directory }}
         AWS_GITHUB_ACTIONS_OIDC_ROLE: ${{ inputs.AWS_GITHUB_ACTIONS_OIDC_ROLE }}
 
-    - uses: './.github/actions/terraform-validate'
+    - name: Terraform Validate
+      id: terraform-validate
+      uses: "./.github/actions/terraform-validate"
       with:
         working-directory: ${{ inputs.working-directory }}
 
@@ -39,6 +43,9 @@ runs:
         hide_and_recreate: true
         header: terraform-plan
         message: |
+          #### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}`
+          #### Terraform Initialization ⚙️`${{ steps.setup-terraform.outputs.terraform-init-outcome }}`
+          #### Terraform Validation 🤖`${{ steps.terraform-validate.outputs.terraform-validate-outcome }}`
           #### Terraform Plan 📖`${{ steps.terraform-plan.outcome }}`
           <details><summary>Show Plan</summary>
 
@@ -50,6 +57,6 @@ runs:
           </details>
 
     - name: Terraform Plan (failure) -> Status
-      if: steps.plan.outcome == 'failure'
+      if: steps.plan.outcome == "failure"
       run: exit 1
       shell: bash

@@ -10,6 +10,10 @@ inputs:
   working-directory:
     description: "Terraform CLI 実行時のパス"
     required: true
+outputs:
+  terraform-init-outcome:
+    description: terraform init の処理結果
+    value: ${{ steps.terraform-init.outcome }}
 
 runs:
   using: composite
@@ -39,27 +43,6 @@ runs:
 
     - name: Terraform Init
       id: terraform-init
-      run: |
-        terraform init
-        echo "Terraform Version: ${{ env.TERRAFORM_VERSION }}"
+      run: terraform init
       working-directory: ${{ inputs.working-directory }}
       shell: bash
-
-    - name: Sticky Pull Request Comment
-      id: sticky-pull-request-comment
-      uses: marocchino/sticky-pull-request-comment@v2.2.0
-      with:
-        hide_and_recreate: true
-        header: init
-        message: |
-          #### Terraform Initialization ⚙️`${{ steps.terraform-init.outcome }}`
-          <details><summary>Show Plan</summary>
-
-          ```hcl
-
-          terraform
-          ${{ steps.plan.outputs.stdout }}
-
-          ```
-
-          </details>
