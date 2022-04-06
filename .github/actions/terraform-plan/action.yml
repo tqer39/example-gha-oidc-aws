@@ -57,6 +57,6 @@ runs:
           </details>
 
     - name: Terraform Plan (failure) -> Status
-      if: steps.terraform-plan.outcome == "failure"
+      if: steps.terraform-plan.outcome == 'failure'
       run: exit 1
       shell: bash
