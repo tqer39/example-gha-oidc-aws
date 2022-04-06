@@ -32,46 +32,46 @@ runs:
       working-directory: ${{ inputs.working-directory }}
       shell: bash
 
-    - name: Terraform Plan (failure) -> GitHub Script
-      uses: actions/github-script@v6
-      # if: steps.plan.outcome == 'failure'
-      env:
-        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-      with:
-        github-token: ${{ inputs.github-token }}
-        script: |
-          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-          <details><summary>Show Plan</summary>
-          \`\`\`\n
-          ${process.env.PLAN}
-          \`\`\`
-          </details>
-          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: output
-          })
-
-    # - uses: marocchino/sticky-pull-request-comment@v2
-    #   if: github.event_name == 'pull_request' && steps.changed.outputs.changed == 'true'
+    # - name: Terraform Plan (failure) -> GitHub Script
+    #   uses: actions/github-script@v6
+    #   # if: steps.plan.outcome == 'failure'
+    #   env:
+    #     PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
     #   with:
-    #     header: plan
-    #     message: |
-    #       #### Terraform Format and Style `${{ steps.fmt.outcome }}`
-    #       #### Terraform Initialization ⚙️`${{ steps.init.outcome }}`
-    #       #### Terraform Validation 🤖`${{ steps.validate.outcome }}`
-    #       #### Terraform Plan 📖`${{ steps.plan.outcome }}`
+    #     github-token: ${{ inputs.github-token }}
+    #     script: |
+    #       const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+    #       #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+    #       #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+    #       #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
     #       <details><summary>Show Plan</summary>
-    #       ```
-    #       terraform
-    #       ${{ steps.plan.outputs.stdout }}
-    #       ```
+    #       \`\`\`\n
+    #       ${process.env.PLAN}
+    #       \`\`\`
     #       </details>
+    #       *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+    #       github.rest.issues.createComment({
+    #         issue_number: context.issue.number,
+    #         owner: context.repo.owner,
+    #         repo: context.repo.repo,
+    #         body: output
+    #       })
+
+    - uses: marocchino/sticky-pull-request-comment@v2
+      # if: github.event_name == 'pull_request' && steps.changed.outputs.changed == 'true'
+      with:
+        header: plan
+        message: |
+          #### Terraform Format and Style `${{ steps.fmt.outcome }}`
+          #### Terraform Initialization ⚙️`${{ steps.init.outcome }}`
+          #### Terraform Validation 🤖`${{ steps.validate.outcome }}`
+          #### Terraform Plan 📖`${{ steps.plan.outcome }}`
+          <details><summary>Show Plan</summary>
+          ```
+          terraform
+          ${{ steps.plan.outputs.stdout }}
+          ```
+          </details>
 
     - name: Terraform Plan (failure) -> Status
       if: steps.plan.outcome == 'failure'
