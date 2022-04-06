@@ -57,7 +57,9 @@ runs:
     #         body: output
     #       })
 
-    - uses: marocchino/sticky-pull-request-comment@v2
+    - name: Pull request comment
+      id: pr-comment
+      uses: marocchino/sticky-pull-request-comment@v2
       # if: github.event_name == 'pull_request' && steps.changed.outputs.changed == 'true'
       with:
         GITHUB_TOKEN: ${{ inputs.github-token }}
