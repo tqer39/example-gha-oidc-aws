@@ -71,10 +71,14 @@ runs:
           #### Terraform Validation 🤖`${{ steps.validate.outcome }}`
           #### Terraform Plan 📖`${{ steps.plan.outcome }}`
           <details><summary>Show Plan</summary>
-          ```
+
+          ```hcl
+
           terraform
           ${{ steps.plan.outputs.stdout }}
+
           ```
+
           </details>
 
     - name: Terraform Plan (failure) -> Status
