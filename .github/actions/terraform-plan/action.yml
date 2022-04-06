@@ -48,12 +48,9 @@ runs:
           #### Terraform Validation 🤖`${{ steps.terraform-validate.outputs.terraform-validate-outcome }}`
           #### Terraform Plan 📖`${{ steps.terraform-plan.outcome }}`
           <details><summary>Show Plan</summary>
-
           ```hcl
-          terraform
           ${{ steps.terraform-plan.outputs.stdout }}
           ```
-
           </details>
 
     - name: Terraform Plan (failure) -> Status
