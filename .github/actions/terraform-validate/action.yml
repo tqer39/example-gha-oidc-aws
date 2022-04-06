@@ -21,9 +21,9 @@ runs:
       uses: marocchino/sticky-pull-request-comment@v2.2.0
       with:
         hide_and_recreate: true
-        header: fmt
+        header: terraform-fmt
         message: |
-          #### Terraform Format and Style `${{ steps.fmt.outcome }}`
+          #### Terraform Format and Style `${{ steps.terraform-fmt.outcome }}`
           <details><summary>Show Plan</summary>
 
           ```hcl
@@ -47,7 +47,7 @@ runs:
         hide_and_recreate: true
         header: validate
         message: |
-          #### Terraform Validation 🤖`${{ steps.validate.outcome }}`
+          #### Terraform Validation 🤖`${{ steps.terraform-validate.outcome }}`
           <details><summary>Show Plan</summary>
 
           ```hcl

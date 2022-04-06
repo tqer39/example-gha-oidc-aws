@@ -52,7 +52,7 @@ runs:
         hide_and_recreate: true
         header: init
         message: |
-          #### Terraform Initialization ⚙️`${{ steps.init.outcome }}`
+          #### Terraform Initialization ⚙️`${{ steps.terraform-init.outcome }}`
           <details><summary>Show Plan</summary>
 
           ```hcl

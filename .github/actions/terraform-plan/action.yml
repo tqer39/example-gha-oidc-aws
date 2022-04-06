@@ -27,7 +27,7 @@ runs:
         working-directory: ${{ inputs.working-directory }}
 
     - name: Terraform Plan
-      id: plan
+      id: terraform-plan
       run: terraform plan -no-color
       working-directory: ${{ inputs.working-directory }}
       shell: bash
@@ -37,12 +37,12 @@ runs:
       uses: marocchino/sticky-pull-request-comment@v2.2.0
       with:
         hide_and_recreate: true
-        header: plan
+        header: terraform-plan
         message: |
-          #### Terraform Format and Style `${{ steps.fmt.outcome }}`
-          #### Terraform Initialization ⚙️`${{ steps.init.outcome }}`
-          #### Terraform Validation 🤖`${{ steps.validate.outcome }}`
-          #### Terraform Plan 📖`${{ steps.plan.outcome }}`
+          #### Terraform Format and Style `${{ steps.terraform-fmt.outcome }}`
+          #### Terraform Initialization ⚙️`${{ steps.terraform-init.outcome }}`
+          #### Terraform Validation 🤖`${{ steps.terraform-validate.outcome }}`
+          #### Terraform Plan 📖`${{ steps.terraform-plan.outcome }}`
           <details><summary>Show Plan</summary>
 
           ```hcl
