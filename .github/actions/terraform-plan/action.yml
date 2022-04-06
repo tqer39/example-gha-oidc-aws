@@ -57,24 +57,24 @@ runs:
     #         body: output
     #       })
 
-    # - name: Sticky Pull Request Comment
-    #   id: sticky-pull-request-comment
-    #   uses: marocchino/sticky-pull-request-comment@v2.2.0
-    #   # if: github.event_name == 'pull_request' && steps.changed.outputs.changed == 'true'
-    #   with:
-    #     GITHUB_TOKEN: ${{ inputs.github-token }}
-    #     header: plan
-    #     message: |
-    #       #### Terraform Format and Style `${{ steps.fmt.outcome }}`
-    #       #### Terraform Initialization ⚙️`${{ steps.init.outcome }}`
-    #       #### Terraform Validation 🤖`${{ steps.validate.outcome }}`
-    #       #### Terraform Plan 📖`${{ steps.plan.outcome }}`
-    #       <details><summary>Show Plan</summary>
-    #       ```
-    #       terraform
-    #       ${{ steps.plan.outputs.stdout }}
-    #       ```
-    #       </details>
+    - name: Sticky Pull Request Comment
+      id: sticky-pull-request-comment
+      uses: marocchino/sticky-pull-request-comment@v2.2.0
+      # if: github.event_name == 'pull_request' && steps.changed.outputs.changed == 'true'
+      with:
+        # GITHUB_TOKEN: ${{ inputs.github-token }}
+        header: plan
+        message: |
+          #### Terraform Format and Style `${{ steps.fmt.outcome }}`
+          #### Terraform Initialization ⚙️`${{ steps.init.outcome }}`
+          #### Terraform Validation 🤖`${{ steps.validate.outcome }}`
+          #### Terraform Plan 📖`${{ steps.plan.outcome }}`
+          <details><summary>Show Plan</summary>
+          ```
+          terraform
+          ${{ steps.plan.outputs.stdout }}
+          ```
+          </details>
 
     - name: Terraform Plan (failure) -> Status
       if: steps.plan.outcome == 'failure'
