@@ -51,7 +51,7 @@ runs:
 
           ```hcl
           terraform
-          ${{ steps.plan.outputs.stdout }}
+          ${{ steps.terraform-plan.outputs.stdout }}
           ```
 
           </details>
