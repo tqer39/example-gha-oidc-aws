@@ -1,9 +1,12 @@
 ---
+templates:
+  terraform_init_result: "#### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}`"
+
 terraform:
   plan:
     template: |
       {{template "plan_title" .}}
-      {{template "#### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}`" }}
+      {{template "terraform_init_result" .}}
 
       {{if .Link}}[CI link]({{.Link}}){{end}}
 
