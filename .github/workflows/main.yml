@@ -6,11 +6,12 @@ on:
     branches:
       - main
   pull_request:
-    types: [ opened, reopened, edited ]
 
 permissions:
   id-token: write
   contents: read
+  # actions: read
+  pull-requests: write
 
 env:
   ENV: dev
