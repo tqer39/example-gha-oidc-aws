@@ -3,7 +3,7 @@ terraform:
   plan:
     template: |
       {{template "plan_title" .}}
-      #### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}`
+      {{template #### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}` }}
 
       {{if .Link}}[CI link]({{.Link}}){{end}}
 
