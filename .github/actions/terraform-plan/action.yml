@@ -39,8 +39,8 @@ runs:
       id: terraform-plan
       # run: terraform plan -no-color
       run: tfcmt -var target:prd plan -- terraform plan -no-color
-      # env:
-      #   GITHUB_TOKEN: ${{ inputs.github-token }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
       working-directory: ${{ inputs.working-directory }}
       shell: bash
 
