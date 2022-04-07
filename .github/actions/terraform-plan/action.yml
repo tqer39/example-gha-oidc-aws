@@ -38,9 +38,9 @@ runs:
     - name: Terraform Plan
       id: terraform-plan
       # run: terraform plan -no-color
-      run: tfcmt -var target:musubi-dev plan -- terraform plan -no-color
-      env:
-        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: tfcmt -var target:prd plan -- terraform plan -no-color
+      # env:
+      #   GITHUB_TOKEN: ${{ inputs.github-token }}
       working-directory: ${{ inputs.working-directory }}
       shell: bash
 
@@ -50,6 +50,7 @@ runs:
       uses: marocchino/sticky-pull-request-comment@v2.2.0
       with:
         hide_and_recreate: true
+        hide_classify: "OUTDATED"
         header: terraform-plan
         message: |
           #### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}`
