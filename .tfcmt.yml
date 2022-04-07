@@ -1,0 +1,17 @@
+---
+terraform:
+  plan:
+    template: |
+      {{template "plan_title" .}}
+      #### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}`
+
+      {{if .Link}}[CI link]({{.Link}}){{end}}
+
+      {{template "deletion_warning" .}}
+      {{template "result" .}}
+      {{template "updated_resources" .}}
+
+      {{template "changed_result" .}}
+      {{template "change_outside_terraform" .}}
+      {{template "warning" .}}
+      {{template "error_messages" .}}

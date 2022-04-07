@@ -50,18 +50,19 @@ runs:
         hide_and_recreate: true
         hide_classify: "OUTDATED"
         header: terraform-plan
-        message: |
-          #### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}`
-          #### Terraform Initialization ⚙️`${{ steps.setup-terraform.outputs.terraform-init-outcome }}`
-          #### Terraform Validation 🤖`${{ steps.terraform-validate.outputs.terraform-validate-outcome }}`
-          #### Terraform Plan 📖`${{ steps.terraform-plan.outcome }}`
-          <details><summary>Show Plan</summary>
+        # message: |
+        #   #### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}`
+        #   #### Terraform Initialization ⚙️`${{ steps.setup-terraform.outputs.terraform-init-outcome }}`
+        #   #### Terraform Validation 🤖`${{ steps.terraform-validate.outputs.terraform-validate-outcome }}`
+        #   #### Terraform Plan 📖`${{ steps.terraform-plan.outcome }}`
 
-          ```hcl
-          ${{ steps.terraform-plan.outputs.stdout }}
-          ```
+        #   <details><summary>Show Plan</summary>
 
-          </details>
+        #   ```hcl
+        #   ${{ steps.terraform-plan.outputs.stdout }}
+        #   ```
+
+        #   </details>
 
     - name: Terraform Plan (failure) -> Status
       if: steps.terraform-plan.outcome == 'failure'
