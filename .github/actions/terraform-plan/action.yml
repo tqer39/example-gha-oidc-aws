@@ -34,34 +34,35 @@ runs:
       id: setup-tfcmt
       uses: itkq/actions-tfcmt/setup@main
 
-
     - name: Terraform Plan
       id: terraform-plan
-      # run: terraform plan -no-color
       run: tfcmt -var target:prd plan -- terraform plan -no-color
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
       working-directory: ${{ inputs.working-directory }}
       shell: bash
 
-    - name: Sticky Pull Request Comment
-      id: sticky-pull-request-comment
-      if: github.event_name == 'pull_request' && steps.terraform-plan.outputs.changed == 'false'
-      uses: marocchino/sticky-pull-request-comment@v2.2.0
-      with:
-        hide_and_recreate: true
-        hide_classify: "OUTDATED"
-        header: terraform-plan
-        message: |
-          #### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}`
-          #### Terraform Initialization ⚙️`${{ steps.setup-terraform.outputs.terraform-init-outcome }}`
-          #### Terraform Validation 🤖`${{ steps.terraform-validate.outputs.terraform-validate-outcome }}`
-          #### Terraform Plan 📖`${{ steps.terraform-plan.outcome }}`
-          <details><summary>Show Plan</summary>
-          ```hcl
-          ${{ steps.terraform-plan.outputs.stdout }}
-          ```
-          </details>
+    # - name: Sticky Pull Request Comment
+    #   id: sticky-pull-request-comment
+    #   if: github.event_name == 'pull_request' # && steps.terraform-plan.outputs.changed == 'true'
+    #   uses: marocchino/sticky-pull-request-comment@v2.2.0
+    #   with:
+    #     hide_and_recreate: true
+    #     hide_classify: "OUTDATED"
+    #     header: terraform-plan
+        # message: |
+        #   #### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}`
+        #   #### Terraform Initialization ⚙️`${{ steps.setup-terraform.outputs.terraform-init-outcome }}`
+        #   #### Terraform Validation 🤖`${{ steps.terraform-validate.outputs.terraform-validate-outcome }}`
+        #   #### Terraform Plan 📖`${{ steps.terraform-plan.outcome }}`
+
+        #   <details><summary>Show Plan</summary>
+
+        #   ```hcl
+        #   ${{ steps.terraform-plan.outputs.stdout }}
+        #   ```
+
+        #   </details>
 
     - name: Terraform Plan (failure) -> Status
       if: steps.terraform-plan.outcome == 'failure'
