@@ -44,11 +44,11 @@ runs:
 
     - name: Sticky Pull Request Comment
       id: sticky-pull-request-comment
-      if: github.event_name == 'pull_request' && steps.terraform-plan.outputs.changed == 'false'
+      if: github.event_name == 'pull_request' && steps.terraform-plan.outputs.changed == 'true'
       uses: marocchino/sticky-pull-request-comment@v2.2.0
       with:
         hide_and_recreate: true
-        # hide_classify: "OUTDATED"
+        hide_classify: "OUTDATED"
         header: terraform-plan
         message: |
           #### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}`
