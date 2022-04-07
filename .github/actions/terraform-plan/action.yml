@@ -34,7 +34,6 @@ runs:
       id: setup-tfcmt
       uses: itkq/actions-tfcmt/setup@main
 
-
     - name: Terraform Plan
       id: terraform-plan
       # run: terraform plan -no-color
