@@ -30,9 +30,17 @@ runs:
       with:
         working-directory: ${{ inputs.working-directory }}
 
+    - name: Setup tfcmt
+      id: setup-tfcmt
+      uses: itkq/actions-tfcmt/setup@main
+
+
     - name: Terraform Plan
       id: terraform-plan
-      run: terraform plan -no-color
+      # run: terraform plan -no-color
+      run: tfcmt -var target:prd plan -- terraform plan -no-color
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
       working-directory: ${{ inputs.working-directory }}
       shell: bash
 
@@ -42,6 +50,7 @@ runs:
       uses: marocchino/sticky-pull-request-comment@v2.2.0
       with:
         hide_and_recreate: true
+        hide_classify: "OUTDATED"
         header: terraform-plan
         message: |
           #### Terraform Format and Style 🖌`${{ steps.terraform-validate.outputs.terraform-fmt-outcome }}`
